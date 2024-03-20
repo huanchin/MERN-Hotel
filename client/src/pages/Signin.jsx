@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice.js";
 
 function Signin() {
   const [formData, setFormData] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -13,7 +21,8 @@ function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
+    dispatch(signInStart());
     const res = await fetch("api/auth/signin", {
       method: "POST",
       headers: {
@@ -23,12 +32,14 @@ function Signin() {
     });
     const data = await res.json();
     if (data.success === false) {
-      setError(data.message);
-      setIsLoading(false);
+      // setError(data.message);
+      // setIsLoading(false);
+      dispatch(signInFailure(data.message));
       return;
     }
-    setError(null);
-    setIsLoading(false);
+    // setError(null);
+    // setIsLoading(false);
+    dispatch(signInSuccess(data));
     navigate("/");
   };
 
@@ -53,10 +64,10 @@ function Signin() {
           className="border p-2 rounded-lg"
         />
         <button
-          disabled={isLoading}
+          disabled={loading}
           className="bg-sky-800 text-white p-2 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
-          {isLoading ? "Loading..." : "sign in"}
+          {loading ? "Loading..." : "sign in"}
         </button>
         <div className="flex justify-between mt-1">
           <p>Dont have an account?</p>
