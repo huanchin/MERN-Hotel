@@ -1,9 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import userRoutes from "./routes/userRoutes.js";
 const app = express();
 dotenv.config({ path: "./config.env" });
 
+/***** connect to database ******/
 const port = process.env.PORT || 3000;
 
 const Database = process.env.DATABASE.replace(
@@ -22,6 +24,10 @@ mongoose
     console.log("Database connected fail!");
   });
 
+/****** routes *****/
+app.use("/api/user", userRoutes);
+
+/***** run the server ******/
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
