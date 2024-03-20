@@ -6,6 +6,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice.js";
+import OAuth from "../components/OAuth.jsx";
 
 function Signin() {
   const [formData, setFormData] = useState({});
@@ -69,13 +70,14 @@ function Signin() {
         >
           {loading ? "Loading..." : "sign in"}
         </button>
-        <div className="flex justify-between mt-1">
-          <p>Dont have an account?</p>
-          <Link to="/signup">
-            <span className="text-sky-800">Sign up</span>
-          </Link>
-        </div>
+        <OAuth />
       </form>
+      <div className="flex justify-between mt-1">
+        <p>Dont have an account?</p>
+        <Link to="/signup">
+          <span className="text-sky-800">Sign up</span>
+        </Link>
+      </div>
       {error && <p className="text-red-500 mt-1">{error}</p>}
     </div>
   );
