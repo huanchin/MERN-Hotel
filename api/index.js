@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 const app = express();
 dotenv.config({ path: "./config.env" });
 
@@ -24,8 +25,12 @@ mongoose
     console.log("Database connected fail!");
   });
 
+/****** middlewares ******/
+app.use(express.json({ limit: "10kb" }));
+
 /****** routes *****/
 app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
 
 /***** run the server ******/
 app.listen(port, () => {
