@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 const app = express();
@@ -27,6 +28,7 @@ mongoose
 
 /****** middlewares ******/
 app.use(express.json({ limit: "10kb" }));
+app.use(cookieParser());
 
 /****** routes *****/
 app.use("/api/user", userRoutes);
