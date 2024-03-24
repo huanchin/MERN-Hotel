@@ -7,7 +7,6 @@ const verifyToken = (req, res, next) => {
 
   if (req.headers.cookie && req.headers.cookie.startsWith("access_token")) {
     token = req.headers.cookie.split("=")[1];
-    console.log(token);
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
@@ -15,7 +14,7 @@ const verifyToken = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
     if (err) return next(errorHandler(401, "Token is not valid"));
-    console.log("⭐️", decoded);
+
     const user = await User.findById(decoded.id);
     if (!user)
       return next(
