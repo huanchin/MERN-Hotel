@@ -20,7 +20,7 @@ const verifyToken = (req, res, next) => {
       return next(
         errorHandler(
           401,
-          "The user belonging to this token does no longer existToken is not valid"
+          "The user belonging to this token does no longer exist."
         )
       );
     req.user = user;
