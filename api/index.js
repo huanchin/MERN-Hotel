@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import listingRoutes from "./routes/listingRoutes.js";
 const app = express();
 dotenv.config({ path: "./config.env" });
 
@@ -33,6 +34,7 @@ app.use(cookieParser());
 /****** routes *****/
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/listing", listingRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
