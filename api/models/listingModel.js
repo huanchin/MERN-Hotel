@@ -53,9 +53,14 @@ const listingSchema = new mongoose.Schema(
       type: Array,
       required: [true, "A listing must have images"],
     },
+    // userRef: {
+    //   type: String,
+    //   required: [true, "A listing must have a creator"],
+    // },
     userRef: {
-      type: String,
-      required: [true, "A listing must have a creator"],
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
+      require: [true, "listing must belong to a user."],
     },
   },
   { timestamps: true }
