@@ -29,6 +29,7 @@ function Profile() {
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
+  const [deleteListingsError, setDeleteListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
 
@@ -147,6 +148,25 @@ function Profile() {
     }
   };
 
+  const handleListingDelete = async (id) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        setDeleteListingsError(data.message);
+        return;
+      }
+      setUserListings((prev) => prev.filter((listing) => listing._id !== id));
+      setDeleteListingsError(false);
+    } catch (err) {
+      setDeleteListingsError(err.message);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7 text-sky-800">
@@ -262,13 +282,21 @@ function Profile() {
               </Link>
 
               <div className="flex flex-col item-center">
-                <button className="text-red-700 uppercase">Delete</button>
+                <button
+                  onClick={() => handleListingDelete(listing._id)}
+                  className="text-red-700 uppercase"
+                >
+                  Delete
+                </button>
                 <button className="text-green-700 uppercase">Edit</button>
               </div>
             </div>
           ))}
         </div>
       )}
+      <p className="text-red-700 mt-5">
+        {deleteListingsError ? deleteListingsError : ""}
+      </p>
     </div>
   );
 }
