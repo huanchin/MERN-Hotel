@@ -28,9 +28,9 @@ function Header() {
               HOME
             </li>
           </Link>
-          <Link to="/about">
+          <Link to="/cart">
             <li className="hidden sm:inline text-sky-50 hover:underline">
-              ABOUT
+              CART
             </li>
           </Link>
           <Link to="/profile">
