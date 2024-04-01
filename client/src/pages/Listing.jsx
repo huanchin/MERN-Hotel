@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
@@ -8,19 +8,24 @@ import {
   FaBath,
   FaBed,
   FaChair,
-  FaMapMarkedAlt,
   FaMapMarkerAlt,
   FaParking,
   FaShare,
 } from "react-icons/fa";
+import { CartContext } from "../CartContext";
 
 function Listing() {
   SwiperCore.use([Navigation]);
+  const cart = useContext(CartContext);
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const params = useParams();
+
+  console.log(cart.items);
+
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -93,6 +98,33 @@ function Listing() {
               <FaMapMarkerAlt className="text-green-700" />
               {listing.address}
             </p>
+            <div className="flex gap-4">
+              <input
+                type="number"
+                id="quantity"
+                min="1"
+                max="10"
+                className="p-1 border border-gray-300 rounded-lg"
+                onChange={(e) => setQuantity(+e.target.value)}
+                value={quantity}
+              />
+              <button
+                onClick={() =>
+                  cart.addToCart(
+                    params.listingId,
+                    listing.name,
+                    listing.imageUrls[0],
+                    listing.discountPrice
+                      ? listing.discountPrice
+                      : listing.regularPrice,
+                    quantity
+                  )
+                }
+                className="p-2 text-white border bg-green-900 rounded uppercase hover:shadow-lg disabled:opacity-80"
+              >
+                Add to Cart
+              </button>
+            </div>
             <div className="flex gap-4">
               <p className="bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
                 {listing.type === "rent" ? "For Rent" : "For Sale"}
