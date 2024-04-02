@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { CartContext } from "../CartContext";
 
 function Header() {
+  const cart = useContext(CartContext);
   const { currentUser } = useSelector((state) => state.user);
 
   return (
@@ -30,7 +33,7 @@ function Header() {
           </Link>
           <Link to="/cart">
             <li className="hidden sm:inline text-sky-50 hover:underline">
-              CART
+              CART({cart.items.reduce((acc, cur) => acc + cur.quantity, 0)})
             </li>
           </Link>
           <Link to="/profile">
