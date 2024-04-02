@@ -4,15 +4,29 @@ import { Link } from "react-router-dom";
 
 function Cart() {
   const [total, setTotal] = useState(0);
+  const [purchaseError, setPurchaseError] = useState(false);
   const cart = useContext(CartContext);
   console.log(cart.items);
+
+  const checkout = async () => {
+    const res = await fetch("api/booking/checkout-seesion", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cart.items),
+    });
+    const data = await res.json();
+    if (!data.url) setPurchaseError(data.message);
+    window.location.assign(data.url);
+  };
 
   useEffect(() => {
     setTotal(cart.getTotalCost);
   }, [cart]);
 
   return (
-    <div className="p-3 max-w-lg mx-auto">
+    <div className="p-3 max-w-lg mx-auto flex flex-col">
       <h1 className="text-3xl font-semibold text-center my-7 text-sky-800">
         Shoping Cart
       </h1>
@@ -47,6 +61,13 @@ function Cart() {
         </div>
       ))}
       <p className="text-xl text-center font-semibold my-7">Total: {total}</p>
+      <button
+        onClick={checkout}
+        className="bg-sky-800 text-white rounded-lg p-2 uppercase hover:opacity-95 disabled:opacity-80"
+      >
+        Purchase
+      </button>
+      {purchaseError ? "Somthing went wrong with purchase" : null}
     </div>
   );
 }

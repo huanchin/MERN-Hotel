@@ -10,6 +10,7 @@ const verifyToken = (req, res, next) => {
   } else if (req.cookies.jwt) {
     token = req.cookies.jwt;
   }
+  console.log(token);
   if (!token) return next(errorHandler(401, "Unauthorized"));
 
   jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {

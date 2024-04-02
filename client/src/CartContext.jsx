@@ -20,11 +20,9 @@ export function CartProvider({ children }) {
     )?.quantity;
 
     if (quantity === undefined) {
-      console.log(`current product quantity is 0`);
       return 0;
     }
 
-    console.log(`current product quantity is ${cartProducts[0].quantity}`);
     return quantity;
   }
 

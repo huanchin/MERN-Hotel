@@ -1,12 +1,21 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import listingRoutes from "./routes/listingRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
+
 const app = express();
 dotenv.config({ path: "./config.env" });
+
+const corsOptions = {
+  credentials: true,
+  optionsSuccessStatus: 200,
+  origin: "http://localhost:5173",
+};
 
 /***** connect to database ******/
 const port = process.env.PORT || 3000;
@@ -28,6 +37,7 @@ mongoose
   });
 
 /****** middlewares ******/
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "10kb" }));
 app.use(cookieParser());
 
@@ -35,6 +45,7 @@ app.use(cookieParser());
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/listing", listingRoutes);
+app.use("/api/booking", bookingRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
