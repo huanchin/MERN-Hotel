@@ -3,6 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { CartContext } from "../CartContext";
+import { FaHome, FaShoppingCart } from "react-icons/fa";
 
 function Header() {
   const cart = useContext(CartContext);
@@ -27,15 +28,36 @@ function Header() {
         </form>
         <ul className="flex gap-4">
           <Link to="/">
-            <li className="hidden sm:inline text-sky-50 hover:underline">
-              HOME
+            <li className="hidden sm:inline text-sky-50 hover:underline flex justify-between items-center">
+              <div className="flex items-center">
+                <FaHome />
+                <span className="ml-2">HOME</span>
+              </div>
+              <span className="ml-auto"></span>
             </li>
           </Link>
           <Link to="/cart">
+            <li className="text-sky-50 hover:underline flex justify-between items-center">
+              <div className="flex items-center">
+                <FaShoppingCart />
+                <span className="ml-2 text-sm sm:text-base">
+                  CART({cart.items.reduce((acc, cur) => acc + cur.quantity, 0)})
+                </span>
+              </div>
+              <span className="ml-auto"></span>
+            </li>
+          </Link>
+          {/* <Link to="/">
+            <li className="hidden sm:inline text-sky-50 hover:underline flex-row">
+              <FaHome />
+              <span>HOME</span>
+            </li>
+          </Link> */}
+          {/* <Link to="/cart">
             <li className="hidden sm:inline text-sky-50 hover:underline">
               CART({cart.items.reduce((acc, cur) => acc + cur.quantity, 0)})
             </li>
-          </Link>
+          </Link> */}
           <Link to="/profile">
             {currentUser ? (
               <img

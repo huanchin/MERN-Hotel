@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import listingRoutes from "./routes/listingRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
+import { webhookCheckout } from "./controllers/bookingControllers.js";
 
 const app = express();
 dotenv.config({ path: "./config.env" });
@@ -38,6 +39,13 @@ mongoose
 
 /****** middlewares ******/
 app.use(cors(corsOptions));
+
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  webhookCheckout
+);
+
 app.use(express.json({ limit: "10kb" }));
 app.use(cookieParser());
 

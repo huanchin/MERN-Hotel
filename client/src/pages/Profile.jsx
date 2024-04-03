@@ -31,6 +31,8 @@ function Profile() {
   const [showListingsError, setShowListingsError] = useState(false);
   const [deleteListingsError, setDeleteListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
+  const [userBookings, setUserBookings] = useState([]);
+  const [showBookingsError, setShowBookingsError] = useState(false);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -143,6 +145,7 @@ function Profile() {
       }
 
       setUserListings(data);
+      setShowListingsError(false);
     } catch (err) {
       setShowListingsError(err.message);
     }
@@ -164,6 +167,23 @@ function Profile() {
       setDeleteListingsError(false);
     } catch (err) {
       setDeleteListingsError(err.message);
+    }
+  };
+
+  const handleShowBookings = async () => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(`/api/user/bookings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingsError("Error showing bookings");
+        return;
+      }
+
+      setUserBookings(data);
+      setShowBookingsError(false);
+    } catch (err) {
+      setShowBookingsError(err.message);
     }
   };
 
@@ -296,6 +316,47 @@ function Profile() {
           ))}
         </div>
       )}
+      <button onClick={handleShowBookings} className="text-green-700 w-full">
+        Show Bookings
+      </button>
+      <p className="text-red-700 mt-5">
+        {showListingsError ? showListingsError : ""}
+      </p>
+      {userBookings &&
+        userBookings.length > 0 &&
+        userBookings.map((booking) => (
+          <div key={booking._id}>
+            <h1 className="font-semibold text-center my-7 text-sky-800">
+              Booking {booking._id}
+            </h1>
+            {booking.purchaseList.map((item) => {
+              console.log(item);
+              return (
+                <div
+                  key={item.id._id}
+                  className="border rounded-lg p-3 flex justify-between items-center gap-4"
+                >
+                  <img
+                    src={item.id.imageUrls}
+                    alt="booking cover"
+                    className="h-16 w-16 object-contain"
+                  />
+                  <p>{item.id.name}</p>
+                  <p>{item.quantity}</p>
+                  <p>
+                    {item.id.discountPrice
+                      ? item.id.discountPrice
+                      : item.id.regularPrice}
+                  </p>
+                </div>
+              );
+            })}
+            <h1 className="font-semibold text-center my-7 text-sky-800">
+              Total {booking.price}
+            </h1>
+          </div>
+        ))}
+
       <p className="text-red-700 mt-5">
         {deleteListingsError ? deleteListingsError : ""}
       </p>

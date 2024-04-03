@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import User from "../models/userModel.js";
 import { errorHandler } from "../utils/error.js";
 import Listing from "../models/listingModel.js";
+import Booking from "../models/bookingModel.js";
 
 export const test = (req, res) => {
   res.json({
@@ -52,6 +53,17 @@ export const getUserListings = async (req, res, next) => {
   try {
     const listings = await Listing.find({ userRef: req.params.id });
     res.status(200).json(listings);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getUserBookings = async (req, res, next) => {
+  if (req.user.id !== req.params.id)
+    return next(errorHandler(401, "You can only view your own bookings"));
+  try {
+    const bookings = await Booking.find({ user: req.params.id });
+    res.status(200).json(bookings);
   } catch (err) {
     next(err);
   }
