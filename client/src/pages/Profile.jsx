@@ -345,14 +345,14 @@ function Profile() {
                   <p>{item.quantity}</p>
                   <p>
                     {item.id.discountPrice
-                      ? item.id.discountPrice
-                      : item.id.regularPrice}
+                      ? item.id.discountPrice.toLocaleString("en-US")
+                      : item.id.regularPrice.toLocaleString("en-US")}
                   </p>
                 </div>
               );
             })}
             <h1 className="font-semibold text-center my-7 text-sky-800">
-              Total {booking.price}
+              Total {booking.price.toLocaleString("en-US")}
             </h1>
           </div>
         ))}
