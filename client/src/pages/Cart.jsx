@@ -6,7 +6,6 @@ function Cart() {
   const [total, setTotal] = useState(0);
   const [purchaseError, setPurchaseError] = useState(false);
   const cart = useContext(CartContext);
-  console.log(cart.items);
 
   const checkout = async () => {
     const res = await fetch("api/booking/checkout-seesion", {

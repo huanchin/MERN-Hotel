@@ -329,28 +329,25 @@ function Profile() {
             <h1 className="font-semibold text-center my-7 text-sky-800">
               Booking {booking._id}
             </h1>
-            {booking.purchaseList.map((item) => {
-              console.log(item);
-              return (
-                <div
-                  key={item.id._id}
-                  className="border rounded-lg p-3 flex justify-between items-center gap-4"
-                >
-                  <img
-                    src={item.id.imageUrls}
-                    alt="booking cover"
-                    className="h-16 w-16 object-contain"
-                  />
-                  <p>{item.id.name}</p>
-                  <p>{item.quantity}</p>
-                  <p>
-                    {item.id.discountPrice
-                      ? item.id.discountPrice.toLocaleString("en-US")
-                      : item.id.regularPrice.toLocaleString("en-US")}
-                  </p>
-                </div>
-              );
-            })}
+            {booking.purchaseList.map((item) => (
+              <div
+                key={item.id._id}
+                className="border rounded-lg p-3 flex justify-between items-center gap-4"
+              >
+                <img
+                  src={item.id.imageUrls}
+                  alt="booking cover"
+                  className="h-16 w-16 object-contain"
+                />
+                <p>{item.id.name}</p>
+                <p>{item.quantity}</p>
+                <p>
+                  {item.id.discountPrice
+                    ? item.id.discountPrice.toLocaleString("en-US")
+                    : item.id.regularPrice.toLocaleString("en-US")}
+                </p>
+              </div>
+            ))}
             <h1 className="font-semibold text-center my-7 text-sky-800">
               Total {booking.price.toLocaleString("en-US")}
             </h1>
