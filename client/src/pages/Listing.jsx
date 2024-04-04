@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
@@ -13,6 +14,7 @@ import {
   FaShare,
 } from "react-icons/fa";
 import { CartContext } from "../CartContext";
+import Contact from "../components/Contact";
 
 function Listing() {
   SwiperCore.use([Navigation]);
@@ -22,9 +24,9 @@ function Listing() {
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [contact, setContact] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
   const params = useParams();
-
-  console.log(cart.items);
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -120,7 +122,7 @@ function Listing() {
                     quantity
                   )
                 }
-                className="p-2 text-white border bg-green-900 rounded uppercase hover:shadow-lg disabled:opacity-80"
+                className="p-2 text-white border bg-sky-800 rounded uppercase hover:shadow-lg disabled:opacity-80"
               >
                 Add to Cart
               </button>
@@ -161,6 +163,15 @@ function Listing() {
                 {listing.furnished ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
+            {currentUser && listing.userRef !== currentUser._id && !contact && (
+              <button
+                onClick={() => setContact(true)}
+                className="bg-sky-800 text-white rounded-lg uppercase hover:opacity-95 p-2"
+              >
+                Contact landlord
+              </button>
+            )}
+            {contact && <Contact listing={listing} />}
           </div>
         </div>
       )}
