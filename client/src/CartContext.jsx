@@ -1,16 +1,22 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const CartContext = createContext({
   items: [],
   getProductQuantity: () => {},
   addToCart: () => {},
-  removeOneFromCart: () => {},
+  removeAllFromCart: () => {},
   deleteFromCart: () => {},
   getTotalCost: () => {},
 });
 
 export function CartProvider({ children }) {
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cartProducts, setCartProducts] = useState(
+    localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartProducts));
+  }, [cartProducts]);
 
   // [ { id: listingId , quantity: 3 }, { id: 2, quantity: 1 } ]
 
@@ -55,20 +61,8 @@ export function CartProvider({ children }) {
     }
   }
 
-  function removeOneFromCart(id) {
-    // const quantity = getProductQuantity(id);
-    // if (quantity == 1) {
-    //   deleteFromCart(id);
-    // } else {
-    //   setCartProducts(
-    //     cartProducts.map(
-    //       (product) =>
-    //         product.id === id // if condition
-    //           ? { ...product, quantity: product.quantity - 1 } // if statement is true
-    //           : product // if statement is false
-    //     )
-    //   );
-    // }
+  function removeAllFromCart() {
+    setCartProducts([]);
   }
 
   function deleteFromCart(id) {
@@ -94,7 +88,7 @@ export function CartProvider({ children }) {
     items: cartProducts,
     getProductQuantity,
     addToCart,
-    removeOneFromCart,
+    removeAllFromCart,
     deleteFromCart,
     getTotalCost,
   };

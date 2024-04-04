@@ -17,6 +17,7 @@ function Cart() {
     });
     const data = await res.json();
     if (!data.url) setPurchaseError(data.message);
+    cart.removeAllFromCart();
     window.location.assign(data.url);
   };
 
