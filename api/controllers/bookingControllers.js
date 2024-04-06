@@ -89,6 +89,11 @@ export const webhookCheckout = (req, res, next) => {
     res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
+  console.log("event:");
+  console.log(event);
+  console.log("event type:");
+  console.log(event.type);
+
   if (event.type === "checkout.session.completed") {
     console.log("total price:");
     console.log(event.data.object.amount_total);
