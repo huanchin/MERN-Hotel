@@ -76,8 +76,7 @@ const createBookingCheckout = async (session) => {
 };
 
 export const webhookCheckout = (req, res, next) => {
-  const endpointSecret =
-    "whsec_0e4a6da48e7ab6bd1732b52321744ec618ab1244d143d2798de434214a263860";
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
   // whsec_0e4a6da48e7ab6bd1732b52321744ec618ab1244d143d2798de434214a263860
 
   const sig = req.headers["stripe-signature"];
