@@ -22,6 +22,7 @@ export const getCheckoutSession = async (req, res, next) => {
       };
     });
 
+    console.log("purchase🚀:");
     console.log(purchaseList);
 
     // 2) Create checkout session
@@ -51,6 +52,9 @@ export const getCheckoutSession = async (req, res, next) => {
       line_items: transformedItems,
       mode: "payment",
     });
+
+    console.log("session url🚀:");
+    console.log(session.url);
 
     // 3) Create session as response
     res.status(200).json({
@@ -89,9 +93,9 @@ export const webhookCheckout = (req, res, next) => {
     res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  console.log("event:");
+  console.log("event🚀:");
   console.log(event);
-  console.log("event type:");
+  console.log("event type🚀:");
   console.log(event.type);
 
   if (event.type === "checkout.session.completed") {
