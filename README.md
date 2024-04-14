@@ -44,4 +44,8 @@ Add a .env file in client/ directory
 ```
 VITE_FIREBASE_API_KEY=your_firebase_api_key
 ```
+To build client side
 
+```
+npm run build
+```
