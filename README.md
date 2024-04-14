@@ -11,6 +11,12 @@ hotel e-Commerce with features:
 
 ## Installation
 
+```bash
+npm run build
+```
+
+## Installation(Optional)
+
 ### Server
 
 ```bash
